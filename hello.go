@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
     for{ 
     inicio()
-    
 
     opcaoSelecionada := leitor()
-
     switch opcaoSelecionada {
     case 1:
 			inciarMonitoramento()
@@ -49,40 +48,32 @@ func leitor() int {
     fmt.Println("O valor da variável instrucao é:", instrucao)
     return instrucao
 }
-
-//1- Iniciar Monitoramento
-//2 - Exibir Logs
-//0 - Sair do Programa
-
 func inciarMonitoramento(){
 	fmt.Println("Estamos monitorando o Airam")
-    
-    /*
-    Isso é um Array
-    var sites[2]string
-    sites[0] = "https://sitecompras.vercel.app"
-    sites[1] = "https://www.linkedin.com/in/leonardo-airam-vieira-b16b66169/?originalSubdomain=br" */
-
-    //Slice
-    sites := []string{"https://sitecompras.vercel.app", "https://www.linkedin.com/in/leonardo-airam-vieira-b16b66169/?originalSubdomain=br"}// só dobra a capacidade do slice quando estouramos o limite do slice
+     //Slice
+    sites := []string{"https://sitecompras.vercel.app", "https://www.linkedin.com/", "https://shouldideploy.today/", "http://www.pudim.com.br/"}
 
     sites = append(sites, "http://emailcorp.rf.gd/?i=2")
-    //então ele não modifica o array, ele cria um novo array - imutabilidade? - substitui o array antigo com o novo slice + o novo item https://pt.stackoverflow.com/questions/262440/capacidade-de-slices-em-golang
-	site := "https://sitecompras.vercel.app"
-    //https://www.linkedin.com/in/leonardo-airam-vieira-b16b66169/?originalSubdomain=br
-    //http://emailcorp.rf.gd/?i=2
-    fmt.Println(sites)
-    fmt.Println("A quantidade de itens é: ", len(sites), "com mais um site")
-    fmt.Println("Capacidade do slice é: ", cap(sites))
+   
+for i:= 0; i < 5; i++{
+    for i, site := range sites{
+        fmt.Println("Site", i, " -> ", site)
+        testarSite(site)
+    }
+    time.Sleep(4 * time.Second)
+    fmt.Println(" ")
+}
+    
+}
 
-	res, _ := http.Get(site) 
+func testarSite(pingSite string){
+    res, _ := http.Get(pingSite) 
 	fmt.Println(res)
 
 	if res.StatusCode == 200{
-		fmt.Println("Site", site, "sucesso")
+		fmt.Println("Site", pingSite, "sucesso")
 	}else{
-		fmt.Println("Site", site, "ERRROU. Status Code:", res.StatusCode)
+		fmt.Println("Site", pingSite, "ERRROU. Status Code:", res.StatusCode)
 	}
+    fmt.Println("")
 }
-
-//implementação: inserir sites por input
